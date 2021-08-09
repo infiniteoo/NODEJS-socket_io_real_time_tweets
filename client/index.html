@@ -20,7 +20,17 @@
     <title>Real Time Tweet Stream</title>
   </head>
   <body>
-    <h1>Hello</h1>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a href="#" class="navbar-brand">Real-Time Tweet Stream</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="tweetStream">
+
+        </div>
+    </div>
 
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"
@@ -30,6 +40,7 @@
     ></script>
 
     <script>
+        
       const socket = io();
       socket.on("connect", () => {
         console.log("connected to server...");
