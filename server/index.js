@@ -21,10 +21,26 @@ async function getRules() {
   return response.body;
 }
 
+// set stream rules
+async function setRules() {
+  const data = {
+    add: rules,
+  };
+  const response = await needle("post", rulesURL, data, {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
+
+  return response.body;
+}
+
 (async () => {
   let currentRules;
 
   try {
+    await setRules();
     currentRules = await getRules();
   } catch (error) {
     console.error(error);
