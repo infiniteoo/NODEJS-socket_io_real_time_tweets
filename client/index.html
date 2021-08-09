@@ -21,6 +21,9 @@
       socket.on("connect", () => {
         console.log("connected to server...");
       });
+      socket.on("tweet", (tweet) => {
+        console.log(tweet);
+      });
     </script>
   </body>
 </html>

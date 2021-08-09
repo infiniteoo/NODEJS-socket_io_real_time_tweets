@@ -71,7 +71,7 @@ async function deleteRules(rules) {
   return response.body;
 }
 
-function streamTweets() {
+function streamTweets(socket) {
   const stream = needle.get(streamURL, {
     headers: {
       Authorization: `Bearer ${TOKEN}`,
@@ -81,17 +81,15 @@ function streamTweets() {
   stream.on("data", (data) => {
     try {
       const json = JSON.parse(data);
-      console.log(json);
+      /*  console.log(json); */
+      socket.emit("tweet", json);
     } catch (error) {}
   });
 }
 
-io.on("connection", () => {
+io.on("connection", async () => {
   console.log("client connected...");
-});
 
-/* 
-(async () => {
   let currentRules;
 
   try {
@@ -105,7 +103,7 @@ io.on("connection", () => {
     process.exit(1);
   }
 
-  streamTweets();
-})(); */
+  streamTweets(io);
+});
 
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
