@@ -5,9 +5,9 @@ console.log(TOKEN);
 
 const rulesURL = "https://api.twitter.com/2/tweets/search/stream/rules";
 const streamURL =
-  "https://api.twitter.com/2/tweets/search/stream?tweet.field=public_metrics&expansions=author_id";
+  "https://api.twitter.com/2/tweets/search/stream?tweet.fields=public_metrics&expansions=author_id";
 
-const rules = [{ value: "giveaway" }];
+const rules = [{ value: "coding" }];
 
 // get stream rules
 async function getRules() {
@@ -58,6 +58,21 @@ async function deleteRules(rules) {
   return response.body;
 }
 
+function streamTweets() {
+  const stream = needle.get(streamURL, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
+
+  stream.on("data", (data) => {
+    try {
+      const json = JSON.parse(data);
+      console.log(json);
+    } catch (error) {}
+  });
+}
+
 (async () => {
   let currentRules;
 
@@ -69,7 +84,8 @@ async function deleteRules(rules) {
     // set rules based on array above
     await setRules();
   } catch (error) {
-    console.error(error);
     process.exit(1);
   }
+
+  streamTweets();
 })();
