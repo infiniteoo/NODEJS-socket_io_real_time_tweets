@@ -68,6 +68,10 @@
         `;
 
         tweetStream.appendChild(tweetEl);
+
+        setTimeout(() => {
+          tweetStream.removeChild(tweetEl);
+        }, 60000);
       });
     </script>
   </body>
