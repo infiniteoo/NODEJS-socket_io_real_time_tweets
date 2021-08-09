@@ -1,7 +1,17 @@
+const http = require("http");
+const path = require("path");
+const express = require("express");
+const socketIo = require("socket.io");
 const needle = require("needle");
 const config = require("dotenv").config();
 const TOKEN = process.env.TWITTER_BEARER_TOKEN;
+const PORT = process.nextTick.PORT || 3000;
 console.log(TOKEN);
+
+const app = express();
+
+const server = http.createServer(app);
+const io = socketIo(server);
 
 const rulesURL = "https://api.twitter.com/2/tweets/search/stream/rules";
 const streamURL =
@@ -72,7 +82,7 @@ function streamTweets() {
     } catch (error) {}
   });
 }
-
+/* 
 (async () => {
   let currentRules;
 
@@ -88,4 +98,6 @@ function streamTweets() {
   }
 
   streamTweets();
-})();
+})(); */
+
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
