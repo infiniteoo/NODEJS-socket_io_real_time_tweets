@@ -6,12 +6,15 @@ const needle = require("needle");
 const config = require("dotenv").config();
 const TOKEN = process.env.TWITTER_BEARER_TOKEN;
 const PORT = process.nextTick.PORT || 3000;
-console.log(TOKEN);
 
 const app = express();
 
 const server = http.createServer(app);
 const io = socketIo(server);
+
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../", "client", "index.html"));
+});
 
 const rulesURL = "https://api.twitter.com/2/tweets/search/stream/rules";
 const streamURL =
@@ -82,6 +85,11 @@ function streamTweets() {
     } catch (error) {}
   });
 }
+
+io.on("connection", () => {
+  console.log("client connected...");
+});
+
 /* 
 (async () => {
   let currentRules;
